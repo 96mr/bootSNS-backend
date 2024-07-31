@@ -1,6 +1,10 @@
 package com.spring.boot.dto;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.boot.entity.Board;
@@ -14,9 +18,9 @@ public class BoardDto {
 	
 	@Getter
 	public static class response {
-		private int bno;
-		private String content;//1000
-		private int writerId; //fk : member의 user_id
+		private Long bno;
+		private String content;
+		private int writerId;
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 		private Date regdate;
 		private int hit;
@@ -35,7 +39,8 @@ public class BoardDto {
 	@NoArgsConstructor
 	@Getter
 	public static class create{
-		private String content;//1000
+		@Size(min = 1, max = 300)
+		private String content;
 		
 		@Builder
 		public create(String content, Member writer) {
@@ -51,15 +56,15 @@ public class BoardDto {
 	}
 	
 	@Getter
-	@NoArgsConstructor
 	public static class info{
-		private int bno;
-		private String content;//1000
+		private Long bno;
+		private String content;
 		private MemberDto.simple writer;
 		private String regdate;
 		private int hit;
 		private int likesCnt;
 		private int replyCnt;
+		private List<BoardFileDto.response> files;
 		
 		public info(Board board) {
 			this.bno = board.getBno();
@@ -69,9 +74,12 @@ public class BoardDto {
 			this.hit = board.getHit();
 			this.likesCnt = board.getLikes().size();
 			this.replyCnt = board.getReplies().size();
+			this.files = board.getFiles().stream()
+										.map(BoardFileDto.response::new)
+										.collect(Collectors.toList());
 		}
 		
-		public info(int bno, String content, Member writer, String regdate, int hit, int likesCnt, int replyCnt) {
+		public info(Long bno, String content, Member writer, String regdate, int hit, int likesCnt, int replyCnt, List<BoardFileDto.response> files) {
 			this.bno = bno;
 			this.content = content;
 			this.writer = new MemberDto.simple(writer);
@@ -79,6 +87,7 @@ public class BoardDto {
 			this.hit = hit;
 			this.likesCnt = likesCnt;
 			this.replyCnt = replyCnt;
+			this.files = files;
 		}
 	}
 
