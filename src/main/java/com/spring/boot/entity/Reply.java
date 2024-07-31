@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SequenceGenerator(name="REPLY_SEQ", sequenceName="REPLY_NO_SEQ", allocationSize = 1)
+@DynamicInsert
 @Entity
 @Table(name="BOARD_REPLY", schema="EX1")
 public class Reply {

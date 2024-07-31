@@ -39,12 +39,12 @@ public class BoardController {
 	
 	@GetMapping("/{id}/board/{board}")
 	public ResponseEntity<BoardDto.info> selectBoard(@PathVariable("id") String id, 
-													@PathVariable("board") int board){
+													@PathVariable("board") long board){
 		return new ResponseEntity<BoardDto.info>(boardService.selectBoard(id, board), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/board", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> insertBoard(@RequestPart @Valid BoardDto.create dto, 
+	public ResponseEntity<String> insertBoard(@RequestPart @Valid BoardDto.create dto, 
 										@RequestPart(required=false) MultipartFile[] files,
 										@AuthenticationPrincipal MemberDetails memberDetail){
 		//내용 또는 파일 여부
