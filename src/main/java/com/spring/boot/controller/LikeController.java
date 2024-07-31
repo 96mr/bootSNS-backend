@@ -25,19 +25,19 @@ public class LikeController {
 	private final LikeService likeService;
 	
 	@GetMapping("/{board}/like")
-	public ResponseEntity<List<LikeDto.response>> listByBoard(@PathVariable("board") int board){
+	public ResponseEntity<List<LikeDto.response>> listByBoard(@PathVariable("board") long board){
 		return ResponseEntity.ok().body(likeService.listByBoard(board));
 	}
 	
 	@PostMapping("/{board}/like")
-	public ResponseEntity<?> insert(@PathVariable("board") int board,
+	public ResponseEntity<?> insert(@PathVariable("board") long board,
 								@AuthenticationPrincipal MemberDetails memberDetail){
 		likeService.insert(board, memberDetail.getMember());
 		return ResponseEntity.created(URI.create("/home")).build();
 	}
 	
 	@DeleteMapping("/{board}/like")
-	public ResponseEntity<?> delete(@PathVariable("board") int board,
+	public ResponseEntity<?> delete(@PathVariable("board") long board,
 							@AuthenticationPrincipal MemberDetails memberDetail){
 		likeService.delete(board, memberDetail.getMember());
 		return ResponseEntity.ok().body("");

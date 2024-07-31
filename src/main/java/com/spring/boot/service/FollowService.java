@@ -1,7 +1,6 @@
 package com.spring.boot.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class FollowService {
 	private final MemberRepository memberRepository;
 	private final FollowRepository followRepository;
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<FollowDto.response> followingList(String id){
 		Member member = memberRepository.findById(id)
 				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
@@ -30,7 +29,7 @@ public class FollowService {
 		return list.stream().map(FollowDto.response::new).collect(Collectors.toList());
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<FollowDto.response> followerList(String id){
 		Member member = memberRepository.findById(id)
 				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
@@ -39,14 +38,11 @@ public class FollowService {
 		return list.stream().map(FollowDto.response::new).collect(Collectors.toList());
 	}
 	
+	@Transactional(readOnly = true)
 	public boolean found(Member from, String target) {
 		Member to = memberRepository.findById(target)
 				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
-		Optional<Follow> follow = followRepository.findByIdMidAndIdTid(from.getUserNo(), to.getUserNo());
-		if(follow.isPresent()) 
-			return true;
-		else
-			return false;
+		return followRepository.existsByIdMidAndIdTid(from.getUserNo(), to.getUserNo());
 	}
 
 	@Transactional

@@ -1,12 +1,10 @@
 package com.spring.boot.dto;
 
-import java.util.Date;
-
 import com.spring.boot.entity.Board;
 import com.spring.boot.entity.Like;
+import com.spring.boot.entity.LikeId;
 import com.spring.boot.entity.Member;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,10 +13,8 @@ public class LikeDto {
 	@Getter
 	@NoArgsConstructor
 	public static class response{
-		private String rowId;
-		private int bno;	
+		private long bno;	
 		private MemberDto.simple likeId;
-		private Date regdate;
 		
 		public response(Like like) {
 			this.bno = like.getBno().getBno();
@@ -29,15 +25,10 @@ public class LikeDto {
 	@Getter
 	@NoArgsConstructor
 	public static class request{
-		private Board bno;
-		
-		@Builder
-		public request(Board bno) {
-			this.bno = bno;
-		}
-		
-		public Like toEntity(Member likeId) {
+		public Like toEntity(Board bno, Member likeId) {
+			LikeId id = new LikeId(bno.getBno(), likeId.getUserNo());
 			return Like.builder()
+					.id(id)
 					.bno(bno)
 					.likeId(likeId)
 					.build();

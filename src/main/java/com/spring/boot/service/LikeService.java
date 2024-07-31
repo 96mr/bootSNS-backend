@@ -20,28 +20,24 @@ public class LikeService {
 	private final BoardRepository boardRepository;
 	private final LikeRepository likeRepository;
 	
-	public List<LikeDto.response> listByBoard(int bno){
+	public List<LikeDto.response> listByBoard(long bno){
 		Board board = boardRepository.findById(bno)
 						.orElseThrow(()->new IllegalStateException("존재하지 않는 게시물"));
 		List<Like> likes = likeRepository.findByBno(board);
 		return likes.stream().map(LikeDto.response::new).collect(Collectors.toList());
 	}
 	
-	public void insert(int bno, Member member) {
+	public void insert(long bno, Member member) {
 		Board board = boardRepository.findById(bno)
 				.orElseThrow(()->new IllegalStateException("존재하지 않는 게시물"));
-		LikeDto.request dto = LikeDto.request.builder()
-								.bno(board)
-								.build();
-		likeRepository.save(dto.toEntity(member));
+		LikeDto.request dto = new LikeDto.request();
+		likeRepository.save(dto.toEntity(board, member));
 	}
 	
-	public void delete(int bno, Member member) {
+	public void delete(long bno, Member member) {
 		Board board = boardRepository.findById(bno)
 				.orElseThrow(()->new IllegalStateException("존재하지 않는 게시물"));
-		LikeDto.request dto = LikeDto.request.builder()
-									.bno(board)
-									.build();
-		likeRepository.delete(dto.toEntity(member));
+		LikeDto.request dto = new LikeDto.request();
+		likeRepository.delete(dto.toEntity(board, member));
 	}
 }

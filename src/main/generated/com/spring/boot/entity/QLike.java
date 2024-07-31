@@ -24,11 +24,11 @@ public class QLike extends EntityPathBase<Like> {
 
     protected QBoard bno;
 
+    protected QLikeId id;
+
     protected QMember likeId;
 
     public final DateTimePath<java.util.Date> regdate = createDateTime("regdate", java.util.Date.class);
-
-    public final StringPath rowId = createString("rowId");
 
     public QLike(String variable) {
         this(Like.class, forVariable(variable), INITS);
@@ -49,6 +49,7 @@ public class QLike extends EntityPathBase<Like> {
     public QLike(Class<? extends Like> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.bno = inits.isInitialized("bno") ? new QBoard(forProperty("bno"), inits.get("bno")) : null;
+        this.id = inits.isInitialized("id") ? new QLikeId(forProperty("id")) : null;
         this.likeId = inits.isInitialized("likeId") ? new QMember(forProperty("likeId"), inits.get("likeId")) : null;
     }
 
@@ -57,6 +58,13 @@ public class QLike extends EntityPathBase<Like> {
             bno = new QBoard(forProperty("bno"));
         }
         return bno;
+    }
+
+    public QLikeId id() {
+        if (id == null) {
+            id = new QLikeId(forProperty("id"));
+        }
+        return id;
     }
 
     public QMember likeId() {
