@@ -15,7 +15,7 @@ public class ReplyRepositoryImpl implements ReplyRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public List<Reply> list(int board) {
+	public List<Reply> list(long board) {
 		return jpaQueryFactory.selectFrom(reply)
 							.leftJoin(reply.parentId()).fetchJoin()
 							.where(reply.bno().bno.eq(board))

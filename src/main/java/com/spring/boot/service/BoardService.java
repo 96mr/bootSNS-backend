@@ -35,9 +35,9 @@ public class BoardService {
 	}
 	
 	@Transactional(readOnly= true)
-	public BoardDto.info selectBoard(String id, int bno) {
+	public BoardDto.info selectBoard(String id, long bno) {
 		Member writer = memberRepository.findById(id)
-				.orElseThrow(()-> new IllegalStateException("존재하지 않는 게시글입니다."));
+				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
 		
 		Board board = boardRepository.findByBnoAndWriterId(bno, writer)
 				.orElseThrow(() -> new IllegalStateException("존재하지 않는 게시글입니다."));

@@ -3,6 +3,8 @@ package com.spring.boot.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import com.spring.boot.entity.Board;
 import com.spring.boot.entity.Member;
 import com.spring.boot.entity.Reply;
@@ -20,6 +22,7 @@ public class ReplyDto {
 		private MemberDto.simple writerId; //댓글 작성자
 		private Long parentId;
 		private List<ReplyDto.response> children = new ArrayList<>();
+		private String delChk;
 	
 		public response(Reply reply) {
 			this.repno = reply.getRepno();
@@ -27,6 +30,7 @@ public class ReplyDto {
 			this.regdate = reply.getRegdate();
 			this.writerId = new MemberDto.simple(reply.getWriterId());
 			this.parentId = reply.getParentId() == null ? null : reply.getParentId().getRepno();
+			this.delChk = reply.getDelChk();
 		}
 	}
 	
@@ -35,17 +39,17 @@ public class ReplyDto {
 	@Builder
 	public static class request{
 		private Long repno;
-		private Board bno;
+		private long bno;
+		@NotBlank
 		private String content; //500
 		private String regdate;
-		private Member writerId;
 		private Reply parentId;
 		private String delChk;
 		
-		public Reply toEntity() {
+		public Reply toEntity(Board board, Member writerId) {
 			return Reply.builder()
 					.repno(repno)
-					.bno(bno)
+					.bno(board)
 					.content(content)
 					.regdate(regdate)
 					.writerId(writerId)
@@ -54,27 +58,4 @@ public class ReplyDto {
 					.build();
 		}
 	}
-	/*
-	@Getter
-	public static class info {
-		private int repno;
-		private int bno;
-		private String content; //500
-		private String regdate;
-		private String writerName;
-		private String writer; //댓글 작성자
-		private ReplyDto.response parentId;
-		private String delChk;
-		
-		public info(Reply reply) {
-			this.repno = reply.getRepno();
-			this.bno = reply.getBno().getBno();
-			this.content = reply.getContent();
-			this.regdate = reply.getRegdate();
-			this.writerName = reply.getWriterId().getProfile().getName();
-			this.writer = reply.getWriterId().getId();
-			this.parentId = new ReplyDto.response(reply.getParentId());
-			this.delChk = reply.getDelChk();
-		}
-	}*/
 }
