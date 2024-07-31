@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BOARD_SEQ")
-	private int bno;
+	private Long bno;
 	@Column
 	@Size(max=300)
 	private String content;
@@ -53,7 +53,7 @@ public class Board {
 	private List<BoardFile> files = new ArrayList<>();
 	
 	@Builder
-	public Board(int bno, String content, Member writerId, Date regdate, int hit, String delChk) {
+	public Board(Long bno, String content, Member writerId, Date regdate, int hit, String delChk) {
 		this.bno = bno;
 		this.content = content;
 		this.writerId = writerId;

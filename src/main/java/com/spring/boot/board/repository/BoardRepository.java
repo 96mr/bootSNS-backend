@@ -12,9 +12,9 @@ import com.spring.boot.entity.Board;
 import com.spring.boot.entity.Member;
 
 @Repository
-public interface BoardRepository extends JpaRepository<Board, Integer>, BoardRepositoryCustom {
+public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
 	public List<Board> findByWriterIdOrderByRegdateDesc(Member writerId);
-	public Optional<Board> findByBnoAndWriterId(int bno, Member writerId);
+	public Optional<Board> findByBnoAndWriterId(long bno, Member writerId);
 	@Query("SELECT b FROM Board b WHERE b.writerId.id = :member")
 	public List<Board> findByMember(@Param("member") Member member);
 }

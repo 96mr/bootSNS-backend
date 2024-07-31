@@ -1,7 +1,5 @@
 package com.spring.boot.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -31,12 +29,12 @@ public class BoardService {
 	private final BoardFileRepository boardFileRepository;
 	private final FileUtils fileUtils;
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public Slice<BoardDto.info> timeline(Member member, Pageable pageable){
 		return boardRepository.timeline(member.getUserNo(), pageable);
 	}
 	
-	@Transactional
+	@Transactional(readOnly= true)
 	public BoardDto.info selectBoard(String id, int bno) {
 		Member writer = memberRepository.findById(id)
 				.orElseThrow(()-> new IllegalStateException("존재하지 않는 게시글입니다."));
@@ -49,11 +47,11 @@ public class BoardService {
 	@Transactional
 	public void save(BoardDto.create dto, MultipartFile[] files, Member writer) {
 		Board bno = boardRepository.save(dto.toEntity(writer));
-		System.out.println("bno : " + bno.getBno());
-		List<FileInfoDto.request> fileDto = fileUtils.parseFileInfo(files, writer.getUserNo());
-		for(FileInfoDto.request req : fileDto) {
-			FileInfo fno = fileInfoRepository.save(req.toEntity());
-			System.out.println("fno : "+ fno.getFno());
+
+		for(MultipartFile file : files) {
+			FileInfoDto.request fileDto = fileUtils.parseFileInfo(file, writer.getUserNo());
+			FileInfo fno = fileInfoRepository.save(fileDto.toEntity());
+			
 			BoardFileDto.request boardFile = new BoardFileDto.request();
 			boardFileRepository.save(boardFile.toEntity(bno, fno));
 		}
