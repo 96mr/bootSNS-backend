@@ -15,7 +15,7 @@ public class FileUtils {
 	@Value("${fileUpload.path}")
 	private String path;
 	
-	public FileInfoDto.request parseFileInfo(MultipartFile file, int memberId){
+	public FileInfoDto.request parseFileInfo(MultipartFile file, long memberId){
 		File target = new File(path);
 		if(!target.exists()) {
 			target.mkdirs();
