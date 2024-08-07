@@ -6,5 +6,5 @@ import org.springframework.data.domain.Slice;
 import com.spring.boot.dto.BoardDto;
 
 public interface BoardRepositoryCustom {
-	Slice<BoardDto.info> timeline(int userNo, Pageable pageable);
+	Slice<BoardDto.info> timeline(long userNo, Pageable pageable);
 }

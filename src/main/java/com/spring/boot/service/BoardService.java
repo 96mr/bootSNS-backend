@@ -1,5 +1,8 @@
 package com.spring.boot.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import com.spring.boot.dto.BoardDto;
 import com.spring.boot.dto.BoardFileDto;
 import com.spring.boot.dto.FileInfoDto;
 import com.spring.boot.entity.Board;
+import com.spring.boot.entity.BoardFile;
 import com.spring.boot.entity.FileInfo;
 import com.spring.boot.entity.Member;
 import com.spring.boot.member.repository.MemberRepository;
@@ -41,7 +45,11 @@ public class BoardService {
 		
 		Board board = boardRepository.findByBnoAndWriterId(bno, writer)
 				.orElseThrow(() -> new IllegalStateException("존재하지 않는 게시글입니다."));
-		return new BoardDto.info(board); 
+		List<BoardFileDto.response> files = boardFileRepository.findByBno(board)
+														.stream()
+														.map(BoardFileDto.response::new)
+														.collect(Collectors.toList());
+		return new BoardDto.info(new BoardDto.response(board), files); 
 	}
 	
 	@Transactional

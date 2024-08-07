@@ -9,6 +9,7 @@ import static com.spring.boot.entity.QProfile.profile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -31,12 +32,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public Slice<BoardDto.info> timeline(int userNo, Pageable pageable) {	
+	public Slice<BoardDto.info> timeline(long userNo, Pageable pageable) {	
 		Date now = new Date();
 
-		List<BoardDto.info> list = jpaQueryFactory.select(
+		List<BoardDto.response> boards = jpaQueryFactory.select(
 					Projections.constructor(
-						BoardDto.info.class, 
+						BoardDto.response.class, 
 						board.bno,
 						board.content,
 						board.writerId().as("writer"),
@@ -53,22 +54,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         .as("regdate"),
 						board.hit,
 						board.likes.size().as("likesCnt"),
-						board.replies.size().as("replyCnt"),
-						Projections.list(
-								Projections.constructor(
-										BoardFileDto.response.class,
-										boardFile.fno().saveName.as("saveName"),
-										boardFile.fno().regdate.as("uploadDate")
-								)
-						)
+						board.replies.size().as("replyCnt")
 					)
 				)
 				.from(board)
 				.innerJoin(board.writerId(), member)
 				.innerJoin(board.writerId().profile(), profile)
 				.fetchJoin()
-				.leftJoin(board.files, boardFile)
-				.leftJoin(boardFile.fno(), fileInfo)
 				.where(
 						board.writerId().userNo.eq(userNo)
 						.or(
@@ -85,6 +77,24 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 				.limit(pageable.getPageSize())
 				.orderBy(board.regdate.desc())
 				.fetch();
+		
+		List<BoardDto.info> list = boards
+						.stream()
+						.map(boardDto -> {
+							List<BoardFileDto.response> files = jpaQueryFactory.select(
+										Projections.constructor(
+												BoardFileDto.response.class, 
+												boardFile.fno().saveName.as("saveName"),
+												boardFile.fno().regdate.as("uploadDate")
+										)
+									)
+									.from(boardFile)
+									.leftJoin(boardFile.fno(), fileInfo)
+									.where(boardFile.bno().bno.eq(boardDto.getBno()))
+									.fetch();
+							
+							return new BoardDto.info(boardDto, files);
+						}).collect(Collectors.toList());
 		return new SliceImpl<>(list, pageable, hasNext(list, pageable.getPageSize()));
 	}
 	
