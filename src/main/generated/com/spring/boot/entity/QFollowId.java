@@ -19,9 +19,9 @@ public class QFollowId extends BeanPath<FollowId> {
 
     public static final QFollowId followId = new QFollowId("followId");
 
-    public final NumberPath<Integer> mid = createNumber("mid", Integer.class);
+    public final NumberPath<Long> mid = createNumber("mid", Long.class);
 
-    public final NumberPath<Integer> tid = createNumber("tid", Integer.class);
+    public final NumberPath<Long> tid = createNumber("tid", Long.class);
 
     public QFollowId(String variable) {
         super(FollowId.class, forVariable(variable));

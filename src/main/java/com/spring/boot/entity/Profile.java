@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Profile {
 	@Id
 	@Column(name="user_no")
-	private int userNo;
+	private long userNo;
 	@NotBlank
 	private String name;
 	private String introduce;
@@ -35,7 +35,7 @@ public class Profile {
 	private Member member;
 	
 	@Builder
-	public Profile(int userNo, String name, String introduce, FileInfo image) {
+	public Profile(long userNo, String name, String introduce, FileInfo image) {
 		this.userNo = userNo;
 		this.name = name;
 		this.introduce = introduce;

@@ -15,14 +15,12 @@ public class FileInfoDto {
 		private String saveName;
 		private int size;
 		private Date regdate;
-	//	private int memberId;
 		
 		public info(FileInfo fileInfo) {
 			this.fno = fileInfo.getFno();
 			this.saveName = fileInfo.getSaveName();
 			this.size = fileInfo.getSize();
 			this.regdate = fileInfo.getRegdate();
-	//		this.memberId = fileInfo.getMemberId();
 		}
 		
 	}
@@ -33,10 +31,10 @@ public class FileInfoDto {
 		private String orgName;
 		private String saveName;
 		private int size;
-		private int memberId;
+		private long memberId;
 		
 		@Builder
-		public request(String orgName, String saveName, int size, int memberId) {
+		public request(String orgName, String saveName, int size, long memberId) {
 			this.orgName = orgName;
 			this.saveName = saveName;
 			this.size = size;

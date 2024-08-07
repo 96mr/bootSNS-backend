@@ -35,10 +35,10 @@ public class FileInfo {
 	@Temporal(TemporalType.DATE)
 	private Date regdate;
 	@Column(name="reg_id")
-	private int memberId;
+	private long memberId;
 	
 	@Builder
-	public FileInfo(int fno, String orgName, String saveName, int size, Date regdate, int memberId) {
+	public FileInfo(int fno, String orgName, String saveName, int size, Date regdate, long memberId) {
 		this.fno = fno;
 		this.orgName = orgName;
 		this.saveName = saveName;

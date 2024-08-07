@@ -2,6 +2,7 @@ package com.spring.boot.dto;
 
 import java.util.Date;
 
+import com.spring.boot.entity.Member;
 import com.spring.boot.entity.Notice;
 
 import lombok.AllArgsConstructor;
@@ -12,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class NoticeDto {
 	@Getter
 	public static class response{
-		private int noteNo;
-		private int sender;
+		private long noteNo;
+		private long sender;
 		private MemberDto.simple receiver; //알림 받는 사람
 		private String notetype;
-		private int bno;
+		private long bno;
 		private String content;
 		private String noteurl;
 		private Date regdate;
@@ -42,11 +43,11 @@ public class NoticeDto {
 	@Getter
 	@Builder
 	public static class request{
-		private int noteNo;
-		private int sender;
-		private MemberDto.request receiver;
+		private long noteNo;
+		private long sender;
+		private Member receiver;
 		private String notetype;
-		private int bno;
+		private long bno;
 		private String content;
 		private String noteurl;
 		private Date regdate;
@@ -57,7 +58,7 @@ public class NoticeDto {
 			return Notice.builder()
 					.noteNo(noteNo)
 					.sender(sender)
-					.receiver(receiver.toEntity())
+					.receiver(receiver)
 					.notetype(notetype)
 					.content(content)
 					.noteurl(noteurl)

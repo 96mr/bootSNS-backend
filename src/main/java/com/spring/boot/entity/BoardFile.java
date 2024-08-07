@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class BoardFile {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="BF_SEQ")
-	private int bfno;
+	private long bfno;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="bno")
 	private Board bno;
@@ -33,7 +33,7 @@ public class BoardFile {
 	private FileInfo fno;
 	
 	@Builder
-	public BoardFile(int bfno, Board bno, FileInfo fno) {
+	public BoardFile(long bfno, Board bno, FileInfo fno) {
 		this.bfno = bfno;
 		this.bno = bno;
 		this.fno = fno;

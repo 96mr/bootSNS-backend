@@ -21,7 +21,7 @@ public class QLikeId extends BeanPath<LikeId> {
 
     public final NumberPath<Long> bno = createNumber("bno", Long.class);
 
-    public final NumberPath<Integer> likeId = createNumber("likeId", Integer.class);
+    public final NumberPath<Long> likeId = createNumber("likeId", Long.class);
 
     public QLikeId(String variable) {
         super(LikeId.class, forVariable(variable));

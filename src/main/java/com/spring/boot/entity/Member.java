@@ -31,7 +31,7 @@ public class Member {
 	@Id
 	@Column(name="user_no")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="MEMBER_SEQ")
-	private int userNo;
+	private long userNo;
 	private String id;
 	private String password;
 	@Temporal(TemporalType.DATE)
@@ -50,7 +50,7 @@ public class Member {
 	private List<Follow> follower = new ArrayList<>();
 	
 	@Builder
-	public Member(int userNo, String id, String password, Date regdate, String birth, String phone, String email, String privacy) {
+	public Member(long userNo, String id, String password, Date regdate, String birth, String phone, String email, String privacy) {
 		this.userNo = userNo;
 		this.id = id;
 		this.password = password;

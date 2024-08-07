@@ -22,7 +22,7 @@ public class QBoardFile extends EntityPathBase<BoardFile> {
 
     public static final QBoardFile boardFile = new QBoardFile("boardFile");
 
-    public final NumberPath<Integer> bfno = createNumber("bfno", Integer.class);
+    public final NumberPath<Long> bfno = createNumber("bfno", Long.class);
 
     protected QBoard bno;
 

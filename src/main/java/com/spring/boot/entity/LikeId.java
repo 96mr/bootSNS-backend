@@ -18,9 +18,9 @@ public class LikeId implements Serializable {
 	@Column(name="bno")
 	private long bno;
 	@Column(name="like_id")
-	private int likeId;
+	private long likeId;
 	
-	public LikeId(long bno, int likeId) {
+	public LikeId(long bno, long likeId) {
         this.bno = bno;
         this.likeId = likeId;
     }

@@ -21,7 +21,7 @@ public class QFileInfo extends EntityPathBase<FileInfo> {
 
     public final NumberPath<Integer> fno = createNumber("fno", Integer.class);
 
-    public final NumberPath<Integer> memberId = createNumber("memberId", Integer.class);
+    public final NumberPath<Long> memberId = createNumber("memberId", Long.class);
 
     public final StringPath orgName = createString("orgName");
 

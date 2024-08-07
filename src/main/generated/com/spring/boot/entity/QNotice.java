@@ -22,7 +22,7 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public static final QNotice notice = new QNotice("notice");
 
-    public final NumberPath<Integer> bno = createNumber("bno", Integer.class);
+    public final NumberPath<Long> bno = createNumber("bno", Long.class);
 
     public final DateTimePath<java.util.Date> chkdate = createDateTime("chkdate", java.util.Date.class);
 
@@ -30,7 +30,7 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public final StringPath delChk = createString("delChk");
 
-    public final NumberPath<Integer> noteNo = createNumber("noteNo", Integer.class);
+    public final NumberPath<Long> noteNo = createNumber("noteNo", Long.class);
 
     public final StringPath notetype = createString("notetype");
 
@@ -40,7 +40,7 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public final DateTimePath<java.util.Date> regdate = createDateTime("regdate", java.util.Date.class);
 
-    public final NumberPath<Integer> sender = createNumber("sender", Integer.class);
+    public final NumberPath<Long> sender = createNumber("sender", Long.class);
 
     public QNotice(String variable) {
         this(Notice.class, forVariable(variable), INITS);
