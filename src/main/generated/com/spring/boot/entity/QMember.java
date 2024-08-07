@@ -42,7 +42,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public final DatePath<java.util.Date> regdate = createDate("regdate", java.util.Date.class);
 
-    public final NumberPath<Integer> userNo = createNumber("userNo", Integer.class);
+    public final NumberPath<Long> userNo = createNumber("userNo", Long.class);
 
     public QMember(String variable) {
         this(Member.class, forVariable(variable), INITS);

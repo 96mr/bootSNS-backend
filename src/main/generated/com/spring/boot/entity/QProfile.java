@@ -30,7 +30,7 @@ public class QProfile extends EntityPathBase<Profile> {
 
     public final StringPath name = createString("name");
 
-    public final NumberPath<Integer> userNo = createNumber("userNo", Integer.class);
+    public final NumberPath<Long> userNo = createNumber("userNo", Long.class);
 
     public QProfile(String variable) {
         this(Profile.class, forVariable(variable), INITS);

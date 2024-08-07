@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,29 +24,31 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @SequenceGenerator(name = "NOTICE_SEQ", sequenceName = "NOTICE_NO_SEQ", allocationSize = 1)
+@DynamicInsert
+@DynamicUpdate
 @Entity
 @Table(name="MEMBER", schema="EX1")
 public class Notice {
 	@Id
 	@Column(name = "noteno")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="NOTICE_SEQ")
-	private int noteNo;
+	private long noteNo;
 	@Column(name = "m_id")
-	private int sender;
+	private long sender;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="t_id")
 	private Member receiver; 
 	private String notetype;
-	private int bno;
+	private long bno;
 	private String content;
 	private String noteurl;
 	private Date regdate;
-	private Date chkdate;
+	private Date chkdate; //알림 확인 날짜
 	@Column(name = "del_chk")
 	private String delChk;
 	
 	@Builder
-	public Notice(int noteNo, int sender, Member receiver, String notetype, int bno, String content, String noteurl, Date regdate,
+	public Notice(long noteNo, long sender, Member receiver, String notetype, long bno, String content, String noteurl, Date regdate,
 			Date chkdate, String delChk) {
 		this.noteNo = noteNo;
 		this.sender = sender;
@@ -57,5 +62,7 @@ public class Notice {
 		this.delChk = delChk;
 	}
 	
-	
+	public void updateChkdate() {
+		this.chkdate = new Date();
+	}
 }

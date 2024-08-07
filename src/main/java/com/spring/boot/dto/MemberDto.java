@@ -2,6 +2,8 @@ package com.spring.boot.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
 import com.spring.boot.entity.Member;
 
 import lombok.Getter;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class MemberDto {
 	@Getter
 	public static class info{
-		private int userNo;
+		private long userNo;
 		private String id;
 		private Date regdate;
 		private String birth;
@@ -32,8 +34,10 @@ public class MemberDto {
 	@NoArgsConstructor
 	@Getter
 	public static class request{
-		private int userNo;
+		private long userNo;
+		@NotBlank
 		private String id;
+		@NotBlank
 		private String password;
 		private Date regdate;
 		private String birth;
@@ -57,7 +61,7 @@ public class MemberDto {
 	
 	@Getter
 	public static class simple{
-		private int userNo;
+		private long userNo;
 		private String id;
 		private ProfileDto.board profile;
 		

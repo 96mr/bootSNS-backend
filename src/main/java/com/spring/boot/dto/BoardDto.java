@@ -1,12 +1,9 @@
 package com.spring.boot.dto;
 
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.boot.entity.Board;
 import com.spring.boot.entity.Member;
 
@@ -20,19 +17,30 @@ public class BoardDto {
 	public static class response {
 		private Long bno;
 		private String content;
-		private int writerId;
-		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-		private Date regdate;
+		private MemberDto.simple writer;
+		private String regdate;
 		private int hit;
-		private String delChk;
+		private int likesCnt;
+		private int replyCnt;
 		
 		public response(Board board) {
 			this.bno = board.getBno();
 			this.content = board.getContent();
-			this.writerId = board.getWriterId().getUserNo();
-			this.regdate = board.getRegdate();
+			this.writer = new MemberDto.simple(board.getWriterId());
+			this.regdate = board.getRegdate().toString();
 			this.hit = board.getHit();
-			this.delChk = board.getDelChk();
+			this.likesCnt = board.getLikes().size();
+			this.replyCnt = board.getReplies().size();
+		}
+		
+		public response(Long bno, String content, Member writer, String regdate, int hit, int likesCnt, int replyCnt) {
+			this.bno = bno;
+			this.content = content;
+			this.writer = new MemberDto.simple(writer);
+			this.regdate = regdate;
+			this.hit = hit;
+			this.likesCnt = likesCnt;
+			this.replyCnt = replyCnt;
 		}
 	}
 	
@@ -66,27 +74,14 @@ public class BoardDto {
 		private int replyCnt;
 		private List<BoardFileDto.response> files;
 		
-		public info(Board board) {
+		public info(BoardDto.response board, List<BoardFileDto.response> files) {
 			this.bno = board.getBno();
 			this.content = board.getContent();
-			this.writer = new MemberDto.simple(board.getWriterId());
+			this.writer = board.getWriter();
 			this.regdate = board.getRegdate().toString();
 			this.hit = board.getHit();
-			this.likesCnt = board.getLikes().size();
-			this.replyCnt = board.getReplies().size();
-			this.files = board.getFiles().stream()
-										.map(BoardFileDto.response::new)
-										.collect(Collectors.toList());
-		}
-		
-		public info(Long bno, String content, Member writer, String regdate, int hit, int likesCnt, int replyCnt, List<BoardFileDto.response> files) {
-			this.bno = bno;
-			this.content = content;
-			this.writer = new MemberDto.simple(writer);
-			this.regdate = regdate;
-			this.hit = hit;
-			this.likesCnt = likesCnt;
-			this.replyCnt = replyCnt;
+			this.likesCnt = board.getLikesCnt();
+			this.replyCnt = board.getReplyCnt();
 			this.files = files;
 		}
 	}

@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @Getter
 public class FollowId implements Serializable{
 	@Column(name="m_id")
-	private int mid;
+	private long mid;
 	@Column(name="t_id")
-	private int tid;
+	private long tid;
 	
-	public FollowId(int mid, int tid) {
+	public FollowId(long mid, long tid) {
         this.mid = mid;
         this.tid = tid;
     }

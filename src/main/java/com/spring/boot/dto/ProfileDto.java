@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class ProfileDto {
 	@Getter
 	public static class info{
-		private int userNo;
+		private long userNo;
 		private String name;
 		private String introduce;
 		private FileInfoDto.info image;
@@ -38,7 +38,7 @@ public class ProfileDto {
 	@Getter
 	@NoArgsConstructor
 	public static class request {
-		private int userNo;
+		private long userNo;
 		private String name;
 		private String introduce;
 		private FileInfoDto.request image;

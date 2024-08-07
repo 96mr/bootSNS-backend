@@ -2,7 +2,6 @@ package com.spring.boot.dto;
 
 import java.util.Date;
 
-import com.querydsl.core.annotations.QueryProjection;
 import com.spring.boot.entity.Board;
 import com.spring.boot.entity.BoardFile;
 import com.spring.boot.entity.FileInfo;
@@ -19,7 +18,6 @@ public class BoardFileDto {
 			this.saveName = boardFile.getFno().getSaveName();
 			this.uploadDate = boardFile.getFno().getRegdate();
 		}
-		@QueryProjection
 		public response(String saveName, Date uploadDate) {
 			this.saveName = saveName;
 			this.uploadDate = uploadDate;
