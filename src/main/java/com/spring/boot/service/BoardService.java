@@ -17,7 +17,6 @@ import com.spring.boot.dto.BoardDto;
 import com.spring.boot.dto.BoardFileDto;
 import com.spring.boot.dto.FileInfoDto;
 import com.spring.boot.entity.Board;
-import com.spring.boot.entity.BoardFile;
 import com.spring.boot.entity.FileInfo;
 import com.spring.boot.entity.Member;
 import com.spring.boot.member.repository.MemberRepository;
@@ -34,12 +33,40 @@ public class BoardService {
 	private final FileUtils fileUtils;
 	
 	@Transactional(readOnly = true)
-	public Slice<BoardDto.info> timeline(Member member, Pageable pageable){
+	public Slice<BoardDto.infoWithImage> timeline(Member member, Pageable pageable){
 		return boardRepository.timeline(member.getUserNo(), pageable);
 	}
 	
+	@Transactional(readOnly = true)
+	public Slice<BoardDto.infoWithImage> getAllBoard(String id, Pageable pageable) {
+		Member writer = memberRepository.findById(id)
+				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
+		return boardRepository.findAllBoard(writer.getUserNo(), pageable);
+	}
+	
+	@Transactional(readOnly = true)
+	public Slice<BoardDto.response> getTextBoard(String id, Pageable pageable) {
+		Member writer = memberRepository.findById(id)
+				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
+		return boardRepository.textBoard(writer.getUserNo(), pageable);
+	}
+	
+	@Transactional(readOnly = true)
+	public Slice<BoardDto.infoWithImage> getMediaBoard(String id, Pageable pageable) {
+		Member writer = memberRepository.findById(id)
+				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
+		return boardRepository.mediaBoard(writer.getUserNo(), pageable);
+	}
+	
+	@Transactional(readOnly = true)
+	public Slice<BoardDto.infoWithImage> getLikesBoard(String id, Pageable pageable) {
+		Member writer = memberRepository.findById(id)
+				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
+		return boardRepository.likesBoard(writer.getUserNo(), pageable);
+	}
+	
 	@Transactional(readOnly= true)
-	public BoardDto.info selectBoard(String id, long bno) {
+	public BoardDto.infoWithImage selectBoard(String id, long bno) {
 		Member writer = memberRepository.findById(id)
 				.orElseThrow(()-> new IllegalStateException("존재하지 않는 회원입니다."));
 		
@@ -49,7 +76,7 @@ public class BoardService {
 														.stream()
 														.map(BoardFileDto.response::new)
 														.collect(Collectors.toList());
-		return new BoardDto.info(new BoardDto.response(board), files); 
+		return new BoardDto.infoWithImage(new BoardDto.response(board), files); 
 	}
 	
 	@Transactional
@@ -63,5 +90,9 @@ public class BoardService {
 			BoardFileDto.request boardFile = new BoardFileDto.request();
 			boardFileRepository.save(boardFile.toEntity(bno, fno));
 		}
+	}
+	
+	public void delete() {
+		
 	}
 }

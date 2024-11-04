@@ -64,7 +64,7 @@ public class BoardDto {
 	}
 	
 	@Getter
-	public static class info{
+	public static class infoWithImage{
 		private Long bno;
 		private String content;
 		private MemberDto.simple writer;
@@ -74,7 +74,7 @@ public class BoardDto {
 		private int replyCnt;
 		private List<BoardFileDto.response> files;
 		
-		public info(BoardDto.response board, List<BoardFileDto.response> files) {
+		public infoWithImage(BoardDto.response board, List<BoardFileDto.response> files) {
 			this.bno = board.getBno();
 			this.content = board.getContent();
 			this.writer = board.getWriter();

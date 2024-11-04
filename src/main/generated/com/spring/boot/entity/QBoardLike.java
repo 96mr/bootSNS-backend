@@ -11,16 +11,16 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QLike is a Querydsl query type for Like
+ * QBoardLike is a Querydsl query type for BoardLike
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QLike extends EntityPathBase<Like> {
+public class QBoardLike extends EntityPathBase<BoardLike> {
 
-    private static final long serialVersionUID = 1194466874L;
+    private static final long serialVersionUID = -1411748134L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QLike like = new QLike("like1");
+    public static final QBoardLike boardLike = new QBoardLike("boardLike");
 
     protected QBoard bno;
 
@@ -30,23 +30,23 @@ public class QLike extends EntityPathBase<Like> {
 
     public final DateTimePath<java.util.Date> regdate = createDateTime("regdate", java.util.Date.class);
 
-    public QLike(String variable) {
-        this(Like.class, forVariable(variable), INITS);
+    public QBoardLike(String variable) {
+        this(BoardLike.class, forVariable(variable), INITS);
     }
 
-    public QLike(Path<? extends Like> path) {
+    public QBoardLike(Path<? extends BoardLike> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QLike(PathMetadata metadata) {
+    public QBoardLike(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QLike(PathMetadata metadata, PathInits inits) {
-        this(Like.class, metadata, inits);
+    public QBoardLike(PathMetadata metadata, PathInits inits) {
+        this(BoardLike.class, metadata, inits);
     }
 
-    public QLike(Class<? extends Like> type, PathMetadata metadata, PathInits inits) {
+    public QBoardLike(Class<? extends BoardLike> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.bno = inits.isInitialized("bno") ? new QBoard(forProperty("bno"), inits.get("bno")) : null;
         this.id = inits.isInitialized("id") ? new QLikeId(forProperty("id")) : null;

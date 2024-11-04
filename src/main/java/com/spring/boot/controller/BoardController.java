@@ -32,15 +32,15 @@ public class BoardController {
 	private final BoardService boardService;
 
 	@GetMapping({"/home","/","/index"})
-	public ResponseEntity<Slice<BoardDto.info>> timeline(Pageable pageable,
+	public ResponseEntity<Slice<BoardDto.infoWithImage>> timeline(Pageable pageable,
 										@AuthenticationPrincipal MemberDetails memberDetail){
 		return ResponseEntity.ok().body(boardService.timeline(memberDetail.getMember(), pageable));
 	}
 	
 	@GetMapping("/{id}/board/{board}")
-	public ResponseEntity<BoardDto.info> selectBoard(@PathVariable("id") String id, 
+	public ResponseEntity<BoardDto.infoWithImage> selectBoard(@PathVariable("id") String id, 
 													@PathVariable("board") long board){
-		return new ResponseEntity<BoardDto.info>(boardService.selectBoard(id, board), HttpStatus.OK);
+		return new ResponseEntity<BoardDto.infoWithImage>(boardService.selectBoard(id, board), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/board", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -84,5 +84,11 @@ public class BoardController {
 	public ResponseEntity<ResponseBody> deleteBoard(@PathVariable("id") String id, 
 													@PathVariable("board") int board){
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/board/{board}/photo")
+	public ResponseEntity<?> boardImage(@PathVariable("id") String id, @PathVariable("board") int board){
+		
+		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 }
