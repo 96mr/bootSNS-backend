@@ -1,7 +1,7 @@
 package com.spring.boot.dto;
 
 import com.spring.boot.entity.Board;
-import com.spring.boot.entity.Like;
+import com.spring.boot.entity.BoardLike;
 import com.spring.boot.entity.LikeId;
 import com.spring.boot.entity.Member;
 
@@ -16,7 +16,7 @@ public class LikeDto {
 		private long bno;	
 		private MemberDto.simple likeId;
 		
-		public response(Like like) {
+		public response(BoardLike like) {
 			this.bno = like.getBno().getBno();
 			this.likeId = new MemberDto.simple(like.getLikeId());
 		}
@@ -25,9 +25,9 @@ public class LikeDto {
 	@Getter
 	@NoArgsConstructor
 	public static class request{
-		public Like toEntity(Board bno, Member likeId) {
+		public BoardLike toEntity(Board bno, Member likeId) {
 			LikeId id = new LikeId(bno.getBno(), likeId.getUserNo());
-			return Like.builder()
+			return BoardLike.builder()
 					.id(id)
 					.bno(bno)
 					.likeId(likeId)

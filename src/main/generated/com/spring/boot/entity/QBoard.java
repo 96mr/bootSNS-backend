@@ -32,7 +32,7 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final NumberPath<Integer> hit = createNumber("hit", Integer.class);
 
-    public final ListPath<Like, QLike> likes = this.<Like, QLike>createList("likes", Like.class, QLike.class, PathInits.DIRECT2);
+    public final ListPath<BoardLike, QBoardLike> likes = this.<BoardLike, QBoardLike>createList("likes", BoardLike.class, QBoardLike.class, PathInits.DIRECT2);
 
     public final DatePath<java.util.Date> regdate = createDate("regdate", java.util.Date.class);
 

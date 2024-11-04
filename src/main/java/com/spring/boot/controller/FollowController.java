@@ -35,7 +35,7 @@ public class FollowController {
 	
 	//팔로우 여부
 	@GetMapping("/{id}/follow")
-	public ResponseEntity<Boolean> followGet(@AuthenticationPrincipal MemberDetails memberDetail, 
+	public ResponseEntity<Boolean> find(@AuthenticationPrincipal MemberDetails memberDetail, 
 											@PathVariable String target){
 		return ResponseEntity.ok().body(followService.found(memberDetail.getMember(), target));
 	}

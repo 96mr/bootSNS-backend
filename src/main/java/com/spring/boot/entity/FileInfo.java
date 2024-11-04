@@ -47,4 +47,9 @@ public class FileInfo {
 		this.memberId = memberId;
 	}
 	
+	public void update(String orgName, String saveName, int size) {
+		this.orgName = orgName;
+		this.saveName = saveName;
+		this.size = size;
+	}
 }

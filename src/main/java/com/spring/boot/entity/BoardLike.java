@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access=AccessLevel.PROTECTED)
 @Entity
 @Table(name="BOARD_LIKE", schema="EX1")
-public class Like {
+public class BoardLike {
 	@EmbeddedId
 	private LikeId id;
 	@MapsId("bno")
@@ -32,7 +32,7 @@ public class Like {
 	private Date regdate;
 	
 	@Builder
-	public Like(LikeId id, Board bno, Member likeId, Date regdate) {
+	public BoardLike(LikeId id, Board bno, Member likeId, Date regdate) {
 		this.id = id;
 		this.bno = bno;
 		this.likeId = likeId;

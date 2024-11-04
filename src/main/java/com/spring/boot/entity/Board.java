@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,10 +47,10 @@ public class Board {
 	private String delChk;
 	
 	@OneToMany(mappedBy="bno")
-	private List<Like> likes = new ArrayList<>();
+	private List<BoardLike> likes = new ArrayList<>();
 	@OneToMany(mappedBy="bno")
 	private List<Reply> replies = new ArrayList<>();
-	@OneToMany(mappedBy="bno")
+	@OneToMany(mappedBy="bno", cascade = CascadeType.ALL)
 	private List<BoardFile> files = new ArrayList<>();
 	
 	@Builder
@@ -62,5 +63,8 @@ public class Board {
 		this.delChk = delChk;
 	}
 	
+	public void addFile(BoardFile boardFile) {
+		files.add(boardFile);
+	}
 	
 }
