@@ -24,19 +24,25 @@ import lombok.RequiredArgsConstructor;
 public class LikeController {
 	private final LikeService likeService;
 	
-	@GetMapping("/{board}/like")
+	@GetMapping("/{id}/board/{board}/likes")
 	public ResponseEntity<List<LikeDto.response>> listByBoard(@PathVariable("board") long board){
 		return ResponseEntity.ok().body(likeService.listByBoard(board));
 	}
 	
-	@PostMapping("/{board}/like")
+	@GetMapping("/like/{board}")
+	public ResponseEntity<Boolean> find(@PathVariable("board") long board,
+								@AuthenticationPrincipal MemberDetails memberDetail){
+		return ResponseEntity.ok(likeService.find(board, memberDetail.getMember()));
+	}
+	
+	@PostMapping("/like/{board}")
 	public ResponseEntity<?> insert(@PathVariable("board") long board,
 								@AuthenticationPrincipal MemberDetails memberDetail){
 		likeService.insert(board, memberDetail.getMember());
 		return ResponseEntity.created(URI.create("/home")).build();
 	}
 	
-	@DeleteMapping("/{board}/like")
+	@DeleteMapping("/like/{board}")
 	public ResponseEntity<?> delete(@PathVariable("board") long board,
 							@AuthenticationPrincipal MemberDetails memberDetail){
 		likeService.delete(board, memberDetail.getMember());
