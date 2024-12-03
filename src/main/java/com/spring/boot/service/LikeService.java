@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.boot.board.repository.BoardRepository;
 import com.spring.boot.dto.LikeDto;
 import com.spring.boot.entity.Board;
-import com.spring.boot.entity.Like;
+import com.spring.boot.entity.BoardLike;
 import com.spring.boot.entity.Member;
 import com.spring.boot.like.repository.LikeRepository;
 
@@ -23,8 +23,12 @@ public class LikeService {
 	public List<LikeDto.response> listByBoard(long bno){
 		Board board = boardRepository.findById(bno)
 						.orElseThrow(()->new IllegalStateException("존재하지 않는 게시물"));
-		List<Like> likes = likeRepository.findByBno(board);
+		List<BoardLike> likes = likeRepository.findByBno(board);
 		return likes.stream().map(LikeDto.response::new).collect(Collectors.toList());
+	}
+	
+	public boolean find(long bno, Member member) {
+		return likeRepository.existsByBnoAndLikeId(bno, member.getUserNo());
 	}
 	
 	public void insert(long bno, Member member) {
@@ -40,4 +44,5 @@ public class LikeService {
 		LikeDto.request dto = new LikeDto.request();
 		likeRepository.delete(dto.toEntity(board, member));
 	}
+
 }
