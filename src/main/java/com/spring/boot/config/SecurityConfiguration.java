@@ -1,8 +1,5 @@
 package com.spring.boot.config;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,9 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.spring.boot.handler.LoginAuthenticationEntryPoint;
 import com.spring.boot.handler.LoginFailureHandler;
@@ -43,11 +37,8 @@ public class SecurityConfiguration {
 		http
 			.cors()  // CORS 설정 활성화
             .and()
-		//	.addFilter(new CorsConfig().corsFilter())
+			.addFilter(new CorsConfig().corsFilter())
 			.authorizeHttpRequests()
-			//	.antMatchers("/login", "/api/login", "/api/checkSession"
-			//				,"/**/profile","/**/board/**").permitAll() // 로그인 페이지 및 API 접근 허용
-			//	.anyRequest().authenticated()
 				.antMatchers("/api/setting/**","/api/board"
 							,"/api/home","/api/**/like"
 							,"/api/**/follow").authenticated()
@@ -81,17 +72,5 @@ public class SecurityConfiguration {
 	public PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-	    configuration.setAllowedHeaders(Arrays.asList("*"));
-	    configuration.setAllowCredentials(true);
 
-	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", configuration);
-
-	    return source;
-	}
 }
