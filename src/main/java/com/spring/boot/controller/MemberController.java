@@ -1,6 +1,7 @@
 package com.spring.boot.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,14 +9,18 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.boot.dto.MemberDto;
 import com.spring.boot.entity.MemberDetails;
+import com.spring.boot.member.repository.MemberRepository;
 import com.spring.boot.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,14 +28,15 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class MemberController {
 	
 	private final MemberService memberService;
+	private final MemberRepository memberRepository;
 	
 	@GetMapping("/login")
 	public ResponseEntity<String> loginGet(@AuthenticationPrincipal MemberDetails memberDetail) {
 		if(memberDetail != null) {
-			System.out.println("login GET");
 			return ResponseEntity.ok("home");
 		}
 		return ResponseEntity.ok("login");
@@ -49,18 +55,11 @@ public class MemberController {
 	@GetMapping("/checkSession")
 	public ResponseEntity<String> checkSession(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    
-	    // 로그를 통해 authentication 객체를 확인
-	    System.out.println("Authentication: " + authentication);
-	    
-	    // 인증 객체가 인증된 상태인지 확인
 	    if (authentication != null && authentication.isAuthenticated() 
 	        && !(authentication instanceof AnonymousAuthenticationToken)) {
-	        System.out.println("Authenticated: " + authentication.getPrincipal());
-	        return ResponseEntity.ok("Authenticated");
+	    	MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+	        return ResponseEntity.ok(memberDetails.getMember().getId());
 	    } else {
-	        // 인증되지 않은 경우
-	        System.out.println("Not Authenticated");
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");
 	    }
 	}
@@ -72,18 +71,16 @@ public class MemberController {
 	}
 	
 	@PostMapping("/join")
-	public ResponseEntity<String> join(){
-		memberService.join();	
-		return ResponseEntity.ok()
-							.body("회원가입");
+	public ResponseEntity<String> register(@RequestBody @Valid MemberDto.request dto){
+		memberService.join(dto);	
+		return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 되었습니다.");
 	}
 	
-	@GetMapping("/user/info")
-	public ResponseEntity<?> userInfo(@AuthenticationPrincipal MemberDetails memberDetail){
-		if(memberDetail != null) {
-			return ResponseEntity.ok().body(memberDetail.getMember().getId());
+	@GetMapping("/check-id/{id}")
+	public ResponseEntity<?> checkId(@PathVariable String id){
+		if(memberRepository.existsById(id)) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		else
-			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok().build();
 	}
 }

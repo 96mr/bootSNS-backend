@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.spring.boot.entity.Member;
 import com.spring.boot.entity.Notice;
+import com.spring.boot.entity.NotificationType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ public class NoticeDto {
 		private long noteNo;
 		private long sender;
 		private MemberDto.simple receiver; //알림 받는 사람
-		private String notetype;
+		private NotificationType notetype;
 		private long bno;
 		private String content;
 		private String noteurl;
@@ -46,7 +47,7 @@ public class NoticeDto {
 		private long noteNo;
 		private long sender;
 		private Member receiver;
-		private String notetype;
+		private NotificationType notetype;
 		private long bno;
 		private String content;
 		private String noteurl;

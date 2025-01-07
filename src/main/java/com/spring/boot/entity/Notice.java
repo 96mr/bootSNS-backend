@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +29,7 @@ import lombok.NoArgsConstructor;
 @DynamicInsert
 @DynamicUpdate
 @Entity
-@Table(name="MEMBER", schema="EX1")
+@Table(name="NOTICE", schema="EX1")
 public class Notice {
 	@Id
 	@Column(name = "noteno")
@@ -38,9 +40,10 @@ public class Notice {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="t_id")
 	private Member receiver; 
-	private String notetype;
+	@Enumerated(EnumType.STRING)
+	private NotificationType notetype;
 	private long bno;
-	private String content;
+	private String content; //댓글 내용
 	private String noteurl;
 	private Date regdate;
 	private Date chkdate; //알림 확인 날짜
@@ -48,7 +51,7 @@ public class Notice {
 	private String delChk;
 	
 	@Builder
-	public Notice(long noteNo, long sender, Member receiver, String notetype, long bno, String content, String noteurl, Date regdate,
+	public Notice(long noteNo, long sender, Member receiver, NotificationType notetype, long bno, String content, String noteurl, Date regdate,
 			Date chkdate, String delChk) {
 		this.noteNo = noteNo;
 		this.sender = sender;

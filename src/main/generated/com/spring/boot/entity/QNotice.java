@@ -32,7 +32,7 @@ public class QNotice extends EntityPathBase<Notice> {
 
     public final NumberPath<Long> noteNo = createNumber("noteNo", Long.class);
 
-    public final StringPath notetype = createString("notetype");
+    public final EnumPath<NotificationType> notetype = createEnum("notetype", NotificationType.class);
 
     public final StringPath noteurl = createString("noteurl");
 

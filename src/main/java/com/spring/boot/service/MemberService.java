@@ -13,8 +13,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 	private final MemberRepository memberRepository;
 	
-	public void join() {
-		
+	public void join(MemberDto.request req) {
+		if(memberRepository.existsById(req.getId())) {
+			throw new IllegalStateException("이미 사용중인 아이디입니다.");
+		}
+		memberRepository.save(req.toEntity());
 	}
 	
 	public MemberDto.info info(Member member){
