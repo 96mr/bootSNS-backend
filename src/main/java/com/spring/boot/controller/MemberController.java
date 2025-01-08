@@ -37,7 +37,7 @@ public class MemberController {
 	@GetMapping("/login")
 	public ResponseEntity<String> loginGet(@AuthenticationPrincipal MemberDetails memberDetail) {
 		if(memberDetail != null) {
-			return ResponseEntity.ok("home");
+			return ResponseEntity.status(HttpStatus.OK).body("home");
 		}
 		return ResponseEntity.ok("login");
 	}
@@ -46,7 +46,7 @@ public class MemberController {
     public ResponseEntity<String> login(@RequestParam String id, @RequestParam String password) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            return ResponseEntity.ok("home");
+            return ResponseEntity.status(HttpStatus.OK).body("home");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed");
         }
@@ -58,7 +58,7 @@ public class MemberController {
 	    if (authentication != null && authentication.isAuthenticated() 
 	        && !(authentication instanceof AnonymousAuthenticationToken)) {
 	    	MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-	        return ResponseEntity.ok(memberDetails.getMember().getId());
+	        return ResponseEntity.status(HttpStatus.OK).body(memberDetails.getMember().getId());
 	    } else {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");
 	    }
@@ -77,10 +77,10 @@ public class MemberController {
 	}
 	
 	@GetMapping("/check-id/{id}")
-	public ResponseEntity<?> checkId(@PathVariable String id){
+	public ResponseEntity<Void> checkId(@PathVariable String id){
 		if(memberRepository.existsById(id)) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		}
-		return ResponseEntity.ok().build();
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }
